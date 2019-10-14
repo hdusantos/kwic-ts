@@ -6,8 +6,20 @@
   "repository": "https://github.com/hdusantos/kwic-ts",
   "author": "Hudson dos Santos <hudson.alves@live.com>",
   "license": "MIT",
+  "scripts": {
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "prebuild": "yarn run lint",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "prestart": "yarn run build",
+    "test": "jest"
+  },
   "devDependencies": {
+    "@types/jest": "^24.0.18",
     "@types/node": "^12.7.12",
+    "jest": "^24.9.0",
+    "jest-cli": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3"
   }

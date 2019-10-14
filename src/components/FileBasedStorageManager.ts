@@ -5,18 +5,11 @@ import IDataStorageManager from "../interfaces/IDataStorageManager";
 class FileBasedStorageManager implements IDataStorageManager {
   private lines: string[] = [];
 
-  public init(): void {
-    const readNameFile = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+  public async init(): Promise<void> {
+    const fileName = await this.getSourceName();
 
-    readNameFile.question(`Enter the name of the input file:`, (name) => {
-      console.log(`Lendo ${name}!`);
-      readNameFile.close();
-    });
-
-    fs.readFileSync(name, "utf-8");
+    const text = fs.readFileSync(fileName, "utf-8");
+    this.lines = text.split("\n");
   }
 
   public line(idx: number): string {
@@ -25,6 +18,25 @@ class FileBasedStorageManager implements IDataStorageManager {
 
   public length(): number {
     return this.lines.length;
+  }
+
+  public setGetSourceName(func: () => Promise<string>): void {
+    this.getSourceName = func;
+  }
+
+  private getSourceName(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const readNameFile = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      readNameFile.question(`Enter the name of the input file:`, (name) => {
+        console.log(`Readind ${name}!`);
+        resolve(name);
+        readNameFile.close();
+      });
+    });
   }
 
 }
