@@ -19,4 +19,4 @@ interface IDataStorageManager {
   length(): number;
 }
 
-export default DataStorageManager;
+export default IDataStorageManager;
