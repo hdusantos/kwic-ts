@@ -19,7 +19,7 @@ interface IIndexManager {
    *                  appears and the position on the line
    */
 
-  occurrencesOfWord(word: string): [];
+  occurrencesOfWord(word: string): Array<[string, number]>;
 
   /**
    * Sorted All Words
