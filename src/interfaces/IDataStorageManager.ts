@@ -3,7 +3,7 @@ interface IDataStorageManager {
   /**
    * Initialize the DataStorageManager
    */
-  init(): void;
+  init(): Promise<void>;
 
   /**
    * Get a specific item on the data storage
