@@ -44,6 +44,7 @@ class IndexManager implements IIndexManager {
   public sortedWords(): string[] {
     const keys: string[] = [];
     this.data.forEach((value: any, key: string) => keys.push(key));
+    keys.sort();
     return keys;
   }
 }
