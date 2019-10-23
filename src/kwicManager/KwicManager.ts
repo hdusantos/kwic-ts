@@ -1,8 +1,15 @@
+/* Interfaces */
 import IDataStorageManager from "../interfaces/IDataStorageManager";
 import IIndexManager from "../interfaces/IIndexManager";
 import IStopWordManager from "../interfaces/IStopWordManager";
 import IWordShift from "../interfaces/IWordShift";
 import IKwicManager from "./IKwicManager";
+
+/* Components */
+import FileBasedStorageManager from "../../src/components/FileBasedStorageManager";
+import IndexManager from "../../src/components/IndexManager";
+import StopWordManager from "../../src/components/StopWordManager";
+import WordShift from "../../src/components/WordShift";
 
 class KwicManager implements IKwicManager {
   private dataStorageManager: IDataStorageManager;
@@ -10,17 +17,14 @@ class KwicManager implements IKwicManager {
   private stopWordManager: IStopWordManager;
   private wordShift: IWordShift;
 
-  constructor(
-    dataStorageManager: IDataStorageManager,
-    indexManager: IIndexManager,
-    stopWordManager: IStopWordManager,
-    wordShift: IWordShift) {
-    /* set components */
-    this.dataStorageManager = dataStorageManager;
-    this.indexManager = indexManager;
-    this.stopWordManager = stopWordManager;
-    this.wordShift = wordShift;
+  constructor() {
+    /* Create components instance*/
+    this.dataStorageManager = new FileBasedStorageManager();
+    this.indexManager = new IndexManager();
+    this.stopWordManager = new StopWordManager("src/resources/stop_words.txt");
+    this.wordShift = new WordShift();
   }
+
   public run(): void {
     /* Initialize Data Storage Manager */
     this.dataStorageManager.init()
