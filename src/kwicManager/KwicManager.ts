@@ -35,8 +35,9 @@ class KwicManager implements IKwicManager {
         }
       }
 
-      for (const w of this.indexManager.sortedWords()) {
-        this.indexManager.occurrencesOfWord(w).map((tuple) => {
+      /* Output */
+      for (const word of this.indexManager.sortedWords()) {
+        this.indexManager.occurrencesOfWord(word).map((tuple) => {
           if (tuple[0] && tuple[1]) {
             console.log(this.wordShift.shift(tuple[0].split(" "), tuple[1], 0).join(" "));
           }
