@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A modular kwic implementation in TypeScript",
   "main": "index.js",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/hdusantos/kwic-ts",
   "author": "Hudson dos Santos <hudson.alves@live.com>",
   "license": "MIT",
