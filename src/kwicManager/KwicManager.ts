@@ -23,10 +23,26 @@ class KwicManager implements IKwicManager {
   }
   public run(): void {
     /* Initialize Data Storage Manager */
-    this.dataStorageManager.init();
+    this.dataStorageManager.init()
+    .then(() => {
+      console.log(this.dataStorageManager.length());
+      for (let lineNumber = 0; lineNumber < this.dataStorageManager.length(); lineNumber++) {
+        const line = this.dataStorageManager.line(lineNumber);
+        const words = line.split(" ");
 
-    /* this.stopWordManager.stopWord() */
+        for (let pos = 0; pos < words.length; pos++) {
+          this.indexManager.map(words[pos], line, pos);
+        }
+      }
 
+      for (const w of this.indexManager.sortedWords()) {
+        this.indexManager.occurrencesOfWord(w).map((tuple) => {
+          if (tuple[0] && tuple[1]) {
+            console.log(this.wordShift.shift(tuple[0].split(" "), tuple[1], 0).join(" "));
+          }
+        });
+      }
+    });
 
   }
 
@@ -42,8 +58,6 @@ class KwicManager implements IKwicManager {
   public setWordShift(component: IWordShift): void {
     this.wordShift = component;
   }
-
-
 }
 
 export default KwicManager;
