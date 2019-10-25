@@ -1,21 +1,24 @@
 /* Interfaces */
 import IDataStorageManager from "../interfaces/IDataStorageManager";
 import IIndexManager from "../interfaces/IIndexManager";
+import IOutputManager from "../interfaces/IOutputManager";
 import IStopWordManager from "../interfaces/IStopWordManager";
 import IWordShift from "../interfaces/IWordShift";
 import IKwicManager from "./IKwicManager";
 
 /* Components */
-import FileBasedStorageManager from "../../src/components/FileBasedStorageManager";
-import IndexManager from "../../src/components/IndexManager";
-import StopWordManager from "../../src/components/StopWordManager";
-import WordShift from "../../src/components/WordShift";
+import FileBasedStorageManager from "../components/FileBasedStorageManager";
+import IndexManager from "../components/IndexManager";
+import ScreenOutputManager from "../components/ScreenOutputManager";
+import StopWordManager from "../components/StopWordManager";
+import WordShift from "../components/WordShift";
 
 class KwicManager implements IKwicManager {
   private dataStorageManager: IDataStorageManager;
   private indexManager: IIndexManager;
   private stopWordManager: IStopWordManager;
   private wordShift: IWordShift;
+  private outputManager: IOutputManager;
 
   constructor() {
     /* Create components instance*/
@@ -23,32 +26,33 @@ class KwicManager implements IKwicManager {
     this.indexManager = new IndexManager();
     this.stopWordManager = new StopWordManager("src/resources/stop_words.txt");
     this.wordShift = new WordShift();
+    this.outputManager = new ScreenOutputManager();
   }
 
   public run(): void {
     /* Initialize Data Storage Manager */
     this.dataStorageManager.init()
-    .then(() => {
-      console.log(this.dataStorageManager.length());
-      for (let lineNumber = 0; lineNumber < this.dataStorageManager.length(); lineNumber++) {
-        const line = this.dataStorageManager.line(lineNumber);
-        const words = line.split(" ");
+      .then(() => {
+        for (let lineNumber = 0; lineNumber < this.dataStorageManager.length(); lineNumber++) {
+          const line = this.dataStorageManager.line(lineNumber);
+          const words = line.split(" ");
 
-        for (let pos = 0; pos < words.length; pos++) {
-          this.indexManager.map(words[pos], line, pos);
-        }
-      }
-
-      /* Output */
-      for (const word of this.indexManager.sortedWords()) {
-        this.indexManager.occurrencesOfWord(word).map((tuple) => {
-          if (tuple[0] && tuple[1]) {
-            console.log(this.wordShift.shift(tuple[0].split(" "), tuple[1], 0).join(" "));
+          for (let pos = 0; pos < words.length; pos++) {
+            this.indexManager.map(words[pos], line, pos);
           }
-        });
-      }
-    });
+        }
 
+        /* Output */
+        const result: string[] = [];
+        for (const word of this.indexManager.sortedWords()) {
+          this.indexManager.occurrencesOfWord(word).map((tuple) => {
+            if (tuple[0] && tuple[1]) {
+              result.push(this.wordShift.shift(tuple[0].split(" "), tuple[1], 0).join(" "));
+            }
+          });
+        }
+        this.outputManager.export(result);
+      });
   }
 
   public setDataStorageManager(component: IDataStorageManager): void {
@@ -62,6 +66,9 @@ class KwicManager implements IKwicManager {
   }
   public setWordShift(component: IWordShift): void {
     this.wordShift = component;
+  }
+  public setOutputManger(component: IOutputManager): void {
+    this.outputManager = component;
   }
 }
 

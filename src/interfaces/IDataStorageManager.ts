@@ -2,6 +2,7 @@ interface IDataStorageManager {
 
   /**
    * Initialize the DataStorageManager
+   * @return {Promise<void>}
    */
   init(): Promise<void>;
 
