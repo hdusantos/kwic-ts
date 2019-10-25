@@ -1,19 +1,23 @@
 {
   "name": "kwic-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modular kwic implementation in TypeScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/hdusantos/kwic-ts",
   "author": "Hudson dos Santos <hudson.alves@live.com>",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "prebuild": "yarn run lint",
     "build": "tsc",
     "build:watch": "tsc -w",
     "prestart": "yarn run build",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn run test && yarn run build"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
