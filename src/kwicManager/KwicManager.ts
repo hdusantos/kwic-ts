@@ -13,6 +13,8 @@ import ScreenOutputManager from "../components/ScreenOutputManager";
 import StopWordManager from "../components/StopWordManager";
 import WordShift from "../components/WordShift";
 
+import path from "path";
+
 class KwicManager implements IKwicManager {
   private dataStorageManager: IDataStorageManager;
   private indexManager: IIndexManager;
@@ -24,7 +26,7 @@ class KwicManager implements IKwicManager {
     /* Create components instance*/
     this.dataStorageManager = new FileBasedStorageManager();
     this.indexManager = new IndexManager();
-    this.stopWordManager = new StopWordManager("src/resources/stop_words.txt");
+    this.stopWordManager = new StopWordManager(path.resolve(__dirname, "../resources/stop_words.txt"));
     this.wordShift = new WordShift();
     this.outputManager = new ScreenOutputManager();
   }

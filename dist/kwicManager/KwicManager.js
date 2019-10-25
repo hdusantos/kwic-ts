@@ -9,12 +9,13 @@ const IndexManager_1 = __importDefault(require("../components/IndexManager"));
 const ScreenOutputManager_1 = __importDefault(require("../components/ScreenOutputManager"));
 const StopWordManager_1 = __importDefault(require("../components/StopWordManager"));
 const WordShift_1 = __importDefault(require("../components/WordShift"));
+const path_1 = __importDefault(require("path"));
 class KwicManager {
     constructor() {
         /* Create components instance*/
         this.dataStorageManager = new FileBasedStorageManager_1.default();
         this.indexManager = new IndexManager_1.default();
-        this.stopWordManager = new StopWordManager_1.default("src/resources/stop_words.txt");
+        this.stopWordManager = new StopWordManager_1.default(path_1.default.resolve(__dirname, "../resources/stop_words.txt"));
         this.wordShift = new WordShift_1.default();
         this.outputManager = new ScreenOutputManager_1.default();
     }
